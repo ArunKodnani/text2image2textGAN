@@ -5,6 +5,9 @@ import numpy as np
 from utils import Concat_embed
 import pdb
 
+def pixel_norm(x, epsilon=1e-8):
+    return x * torch.rsqrt(torch.mean(torch.mul(x,x), axis=1, keepdims=True) + epsilon)
+
 def conv3x3(in_planes, out_planes, stride=1):
     "3x3 convolution with padding"
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
@@ -16,7 +19,7 @@ def upBlock(in_planes, out_planes):
     block = nn.Sequential(
         nn.Upsample(scale_factor=2, mode='nearest'),
         conv3x3(in_planes, out_planes),
-        nn.BatchNorm2d(out_planes),
+        pixel_norm(out_planes),
         nn.ReLU(True))
     return block
 
@@ -26,10 +29,10 @@ class ResBlock(nn.Module):
         super(ResBlock, self).__init__()
         self.block = nn.Sequential(
             conv3x3(channel_num, channel_num),
-            nn.BatchNorm2d(channel_num),
+            nn.pixel_norm(channel_num),
             nn.ReLU(True),
             conv3x3(channel_num, channel_num),
-            nn.BatchNorm2d(channel_num))
+            nn.pixel_norm(channel_num))
         self.relu = nn.ReLU(inplace=True)
 
     def forward(self, x):
@@ -59,48 +62,48 @@ class generator(nn.Module):
         # based on: https://github.com/pytorch/examples/blob/master/dcgan/main.py
         self.netG = nn.Sequential(
             nn.ConvTranspose2d(self.latent_dim, self.ngf * 8, 4, 1, 0, bias=True),
-            nn.BatchNorm2d(self.ngf * 8),
+            nn.pixel_norm(self.ngf * 8),
             nn.ReLU(True),
 
             # adding extra convs will give output (ngf*8) x 4 x 4
             nn.Conv2d(self.ngf*8, self.ngf*2, 1, 1, 0),
-            nn.BatchNorm2d(self.ngf*2),
+            nn.pixel_norm(self.ngf*2),
             nn.ReLU(True),
 
             nn.Conv2d(self.ngf*2, self.ngf*2, 3, 1, 1),
-            nn.BatchNorm2d(self.ngf*2),
+            nn.pixel_norm(self.ngf*2),
             nn.ReLU(True),
 
             nn.Conv2d(self.ngf*2, self.ngf*8, 3, 1, 1),
-            nn.BatchNorm2d(self.ngf*8),
+            nn.pixel_norm(self.ngf*8),
             nn.ReLU(True),
 
             # state size. (ngf*8) x 4 x 4
             nn.ConvTranspose2d(self.ngf * 8, self.ngf * 4, 4, 2, 1, bias=True),
-            nn.BatchNorm2d(self.ngf * 4),
+            nn.pixel_norm(self.ngf * 4),
             nn.ReLU(True),
 
             # adding extra convs will give output (ngf*4) x 4 x 4
             nn.Conv2d(self.ngf*4, self.ngf, 1, 1, 0),
-            nn.BatchNorm2d(self.ngf),
+            nn.pixel_norm(self.ngf),
             nn.ReLU(True),
 
             nn.Conv2d(self.ngf, self.ngf, 3, 1, 1),
-            nn.BatchNorm2d(self.ngf),
+            nn.pixel_norm(self.ngf),
             nn.ReLU(True),
 
             nn.Conv2d(self.ngf, self.ngf*4, 3, 1, 1),
-            nn.BatchNorm2d(self.ngf*4),
+            nn.pixel_norm(self.ngf*4),
             nn.ReLU(True),
 
 
             # state size. (ngf*4) x 8 x 8
             nn.ConvTranspose2d(self.ngf * 4, self.ngf * 2, 4, 2, 1, bias=True),
-            nn.BatchNorm2d(self.ngf * 2),
+            nn.pixel_norm(self.ngf * 2),
             nn.ReLU(True),
             # state size. (ngf*2) x 16 x 16
             nn.ConvTranspose2d(self.ngf * 2,self.ngf, 4, 2, 1, bias=True),
-            nn.BatchNorm2d(self.ngf),
+            nn.pixel_norm(self.ngf),
             nn.ReLU(True),
             # state size. (ngf) x 32 x 32
             nn.ConvTranspose2d(self.ngf, self.num_channels, 4, 2, 1, bias=True),
@@ -209,11 +212,11 @@ class generator2(nn.Module):
             nn.ReLU(True),
             # state size. (ngf) x 64 x 64
             nn.Conv2d(self.ngf, self.ngf * 2, 4, 2, 1, bias=True),
-            nn.BatchNorm2d(self.ngf * 2),
+            nn.pixel_norm(self.ngf * 2),
             nn.ReLU(True),
             # state size. (ngf*2) x 32 x 32
             nn.Conv2d(self.ngf * 2, self.ngf * 4, 4, 2, 1, bias=True),
-            nn.BatchNorm2d(self.ngf * 4),
+            nn.pixel_norm(self.ngf * 4),
             nn.ReLU(True)
             # state size. (ngf*4) x 16 x 16
         )
@@ -221,7 +224,7 @@ class generator2(nn.Module):
         self.join_embed = nn.Sequential(
 
             nn.Conv2d(self.projected_embed_dim + self.ngf*4 , self.ngf * 4, 3, 1, 1),
-            nn.BatchNorm2d(self.ngf * 4),
+            nn.pixel_norm(self.ngf * 4),
             nn.ReLU(True)
         )
 
