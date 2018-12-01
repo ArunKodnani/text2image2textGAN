@@ -1,20 +1,20 @@
 # Birds CUB dataset
-birds_images_path: '/home/krishna/Documents/UofT/courses/mlcv/project/datasets/cvpr2016_cub/images/'
-birds_embedding_path: '/home/krishna/Documents/UofT/courses/mlcv/project/datasets/cub_icml/'
-birds_text_path: '/home/krishna/Documents/UofT/courses/mlcv/project/datasets/cvpr2016_cub/text_c10/'
-birds_dataset_path: '/home/jeremy/Downloads/birds.hdf5'
+birds_images_path: '/scratch/ak6384/final/text2image2textGAN/data/cvpr2016_cub/images/'
+birds_embedding_path: '/scratch/ak6384/final/text2image2textGAN/data/cub_icml/'
+birds_text_path: '/scratch/ak6384/final/text2image2textGAN/data/cvpr2016_cub/text_c10/'
+birds_dataset_path: '/scratch/ak6384/final/text2image2textGAN/data/birds.hdf5'
 
-val_split_path: '/home/krishna/Documents/UofT/courses/mlcv/project/datasets/cub_icml/valclasses.txt'
-train_split_path: '/home/krishna/Documents/UofT/courses/mlcv/project/datasets/cub_icml/trainclasses.txt'
-test_split_path: '/home/krishna/Documents/UofT/courses/mlcv/project/datasets/cub_icml/testclasses.txt'
+val_split_path: '/scratch/ak6384/final/text2image2textGAN/data/cub_icml/valclasses.txt'
+train_split_path: '/scratch/ak6384/final/text2image2textGAN/data/cub_icml/trainclasses.txt'
+test_split_path: '/scratch/ak6384/final/text2image2textGAN/data/cub_icml/testclasses.txt'
 
 
 # flowers dataset
-flowers_images_path: '/home/jeremy/Downloads/flowers_images'
-flowers_embedding_path: '/home/jeremy/Downloads/flowers_icml'
-flowers_text_path: '/home/jeremy/Downloads/cvpr2016_flowers/text_c10'
-flowers_dataset_path: '/home/jeremy/Downloads/flowers_v2.hdf5'
+flowers_images_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/flowers_images'
+flowers_embedding_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/flowers_icml'
+flowers_text_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/cvpr2016_flowers/text_c10'
+flowers_dataset_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/flowers_v2.hdf5'
 
-flowers_val_split_path: '/home/jeremy/Downloads/flowers_icml/valclasses.txt'
-flowers_train_split_path: '/home/jeremy/Downloads/flowers_icml/trainclasses.txt'
-flowers_test_split_path: '/home/jeremy/Downloads/flowers_icml/testclasses.txt'
+flowers_val_split_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/flowers_icml/valclasses.txt'
+flowers_train_split_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/flowers_icml/trainclasses.txt'
+flowers_test_split_path: '/scratch/ak6384/final/text2image2textGAN/data/flowers/flowers_icml/testclasses.txt'
